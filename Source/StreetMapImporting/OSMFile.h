@@ -129,12 +129,6 @@ public:
 
 		/** Default type of building.  A general catch-all. */
 		Building,
-        
-        /** Default type of building.  A general catch-all. */
-		Water,
-        
-        /** Default type of building.  A general catch-all. */
-		Park,
 
 
 		///
@@ -172,8 +166,6 @@ public:
 		EOSMWayType WayType;
 		double Height;
 		int32 BuildingLevels;
-        FString Amenity;
-        FString Building;
 
 		// If true, way is only traversable in the order the nodes are listed in the Nodes list
 		uint8 bIsOneWay : 1;

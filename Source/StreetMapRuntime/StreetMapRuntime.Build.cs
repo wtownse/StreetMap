@@ -16,12 +16,7 @@ namespace UnrealBuildTool.Rules
 					"Engine",
 					"RHI",
 					"RenderCore",
-<<<<<<< HEAD
-					"ShaderCore",
-                    //"PropertyEditor"
-=======
                     "PropertyEditor",
->>>>>>> f973949372c85c27f85cbc2882a805922999d5ba
                 }
 			);
 			if (Target.Version.MinorVersion <= 21)

@@ -8,7 +8,6 @@
 #include "Runtime/Engine/Public/StaticMeshResources.h"
 #include "PhysicsEngine/BodySetup.h"
 
-
 UStreetMap::UStreetMap()
 {
 #if WITH_EDITORONLY_DATA
@@ -33,10 +32,36 @@ void UStreetMap::GetAssetRegistryTags( TArray<FAssetRegistryTag>& OutTags ) cons
 }
 
 
-FStreetMapBuilding UStreetMap::FindBuilding(const FVector2D Point)
+TArray<FStreetMapBuilding> UStreetMap::FindBuilding(const FVector2D Point)
+{
+    TArray<FStreetMapBuilding> FoundBuildings;
+    for (const auto &element : Buildings)
+    {
+        if (FPolygonTools::IsPointInsidePolygon(element.BuildingPoints, Point))
+        {
+            FoundBuildings.Add(element);
+        }
+    }
+    return FoundBuildings;
+}
+
+FStreetMapRoad UStreetMap::FindRoad(const FVector2D Point)
+{
+    FStreetMapRoad emptyRoad;
+    for (const auto &element : Roads)
+    {
+        if (FPolygonTools::IsPointInsidePolygon(element.RoadPoints, Point) && element.RoadName.Len() > 0)
+        {
+            return element;
+        }
+    }
+    return emptyRoad;
+}
+
+FStreetMapBuilding UStreetMap::FindBuildingFromArray(const FVector2D Point, TArray<FStreetMapBuilding> SmallBuildings)
 {
     FStreetMapBuilding emptyBuilding;
-    for (const auto &element : Buildings)
+    for (const auto &element : SmallBuildings)
     {
         if (FPolygonTools::IsPointInsidePolygon(element.BuildingPoints, Point))
         {
@@ -62,6 +87,32 @@ TArray<FStreetMapBuilding> UStreetMap::SearchByBuildingName(FString SearchTerm, 
     else
     {
         Results = Buildings;
+    }
+    
+    if (Amenity.Len() > 0)
+    {
+        Results = FilterByAmenity(Amenity, Results);
+    }
+  
+    return Results;
+}
+
+TArray<FStreetMapBuilding> UStreetMap::SearchByBuildingNameFromArray(FString SearchTerm, FString Amenity, TArray<FStreetMapBuilding> SmallBuildings) const
+{
+    TArray<FStreetMapBuilding> Results;
+    if (SearchTerm.Len() > 0)
+    {
+        for (const auto &element : SmallBuildings)
+        {
+            if (element.BuildingName.Contains(SearchTerm))
+            {
+                Results.Add(element);
+            }
+        }
+    }
+    else
+    {
+        Results = SmallBuildings;
     }
     
     if (Amenity.Len() > 0)

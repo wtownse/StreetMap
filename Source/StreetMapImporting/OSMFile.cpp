@@ -323,8 +323,6 @@ bool FOSMFile::ProcessAttribute( const TCHAR* AttributeName, const TCHAR* Attrib
 			else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "building" ) ) )
 			{
 				CurrentWayInfo->WayType = EOSMWayType::Building;
-                // Vinfamy added
-                CurrentWayInfo->Building = AttributeValue;
 
 				if( !FCString::Stricmp( AttributeValue, TEXT( "yes" ) ) )
 				{
@@ -335,78 +333,6 @@ bool FOSMFile::ProcessAttribute( const TCHAR* AttributeName, const TCHAR* Attrib
 					// Other type that we don't recognize yet.  See http://wiki.openstreetmap.org/wiki/Key:building
 				}
 			}
-            
-            
-            /**
-            else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "natural" ) ) )
-			{
-				if( !FCString::Stricmp( AttributeValue, TEXT( "water" ) ) )
-				{
-					CurrentWayInfo->WayType = EOSMWayType::Water;
-				}
-				else
-				{
-					// Other natural type that we don't recognize yet.  See http://wiki.openstreetmap.org/wiki/Key:building
-				}
-			}
-            
-            else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "waterway" ) ) )
-			{
-                CurrentWayInfo->WayType = EOSMWayType::Water;
-			}
-            
-            else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "water" ) ) )
-			{
-                CurrentWayInfo->WayType = EOSMWayType::Water;
-			}
-            
-            else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "landuse" ) ) )
-			{
-                if( !FCString::Stricmp( AttributeValue, TEXT( "basin" ) ) )
-				{
-					CurrentWayInfo->WayType = EOSMWayType::Water;
-				}
-                
-                else if( !FCString::Stricmp( AttributeValue, TEXT( "reservoir" ) ) )
-				{
-					CurrentWayInfo->WayType = EOSMWayType::Water;
-				}
-                
-                else if( !FCString::Stricmp( AttributeValue, TEXT( "pond" ) ) )
-				{
-					CurrentWayInfo->WayType = EOSMWayType::Water;
-				}
-
-			}
-            */
-            
-            else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "leisure" ) ) )
-			{
-				if( !FCString::Stricmp( AttributeValue, TEXT( "park" ) ) )
-				{
-					CurrentWayInfo->WayType = EOSMWayType::Park;
-				}
-                
-                else if( !FCString::Stricmp( AttributeValue, TEXT( "fitness_centre" ) ) )
-				{
-                    CurrentWayInfo->WayType = EOSMWayType::Building;
-                    CurrentWayInfo->Amenity = AttributeValue;
-				}
-                
-                else if( !FCString::Stricmp( AttributeValue, TEXT( "sports_centre" ) ) )
-				{
-                    CurrentWayInfo->WayType = EOSMWayType::Building;
-                    CurrentWayInfo->Amenity = AttributeValue;
-				}
-                
-				else
-				{
-					// Other natural type that we don't recognize yet.  See http://wiki.openstreetmap.org/wiki/Key:building
-				}
-			}
-            
-            
-            
 			else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "height" ) ) )
 			{
 				// Check to see if there is a space character in the height value.  For now, we're looking
@@ -427,13 +353,6 @@ bool FOSMFile::ProcessAttribute( const TCHAR* AttributeName, const TCHAR* Attrib
 			{
 				CurrentWayInfo->BuildingLevels = FPlatformString::Atoi(AttributeValue);
 			}
-            
-            // Vinfamy added
-            else if (!FCString::Stricmp(CurrentWayTagKey, TEXT("amenity")))
-			{
-				CurrentWayInfo->Amenity = AttributeValue;
-			}
-                
 			else if( !FCString::Stricmp( CurrentWayTagKey, TEXT( "oneway" ) ) )
 			{
 				if( !FCString::Stricmp( AttributeValue, TEXT( "yes" ) ) )
